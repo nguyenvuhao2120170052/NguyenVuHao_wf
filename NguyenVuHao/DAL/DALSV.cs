@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NguyenVuHao.BO;
+using System.IO;
 
 namespace NguyenVuHao.DAL
 {
@@ -40,10 +41,12 @@ namespace NguyenVuHao.DAL
                 }
             }
         }
+       
 
 
         public List<SinhVien> GetAll()
         {
+            List<SinhVien> sinhViens = new List<SinhVien>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -61,8 +64,8 @@ namespace NguyenVuHao.DAL
                                 SDT = reader.GetInt32(1),
                                 Ten = reader.GetString(2),
                                 Email = reader.GetString(3),
-                                Avatar = reader.GetString(4)
-                            };
+                                Avatar = (byte[])reader[4]
+                        };
                             sinhViens.Add(sv);
                         }
                     }
@@ -90,7 +93,7 @@ namespace NguyenVuHao.DAL
                                 SDT = reader.GetInt32(1),
                                 Ten = reader.GetString(2),
                                 Email = reader.GetString(3),
-                                Avatar = reader.GetString(4)
+                                Avatar = (byte[])reader[4]
                             };
                           return sv;
                         }
@@ -137,11 +140,11 @@ namespace NguyenVuHao.DAL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "UPDATE SinhVien SET  MASV=@MASV, SDT=@SDT,TenSV= @TenSV,Email= @Email, Avatar = @Avatar WHERE MASV=@MASV";
+                string query = "UPDATE SinhVien SET MaSV=@MaSV , SDT=@SDT,TenSV=@TenSV,Email=@Email, Avatar=@Avatar WHERE MaSV=@MaSV";
 
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@MASV", sv.MaSV);
+                    cmd.Parameters.AddWithValue("@MaSV", sv.MaSV);
                     cmd.Parameters.AddWithValue("@SDT", sv.SDT);
                     cmd.Parameters.AddWithValue("@TenSV", sv.Ten);
                     cmd.Parameters.AddWithValue("@Email", sv.Email);

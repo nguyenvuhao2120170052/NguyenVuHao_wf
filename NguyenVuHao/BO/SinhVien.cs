@@ -12,6 +12,6 @@ namespace NguyenVuHao.BO
         public int SDT { get; set; }
         public string Ten { get; set; }
         public string Email { get; set; }
-        public string Avatar { get; set; }
+        public byte[] Avatar { get; set; }
     }
 }
